@@ -116,9 +116,9 @@ jobs:
         & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
           -verb:sync `
           -source:contentPath="publish" `
-          -dest:contentPath="${{ secrets.SITE_NAME }}",
-                computerName="https://${{ secrets.SERVER }}:8172/msdeploy.axd?site=${{ secrets.SITE_NAME }}",
-                userName="${{ secrets.USERNAME }}",
-                password="${{ secrets.PASSWORD }}",
+          -dest:contentPath="${{ secrets.WEBSITE_NAME }}",
+                computerName="https://${{ secrets.SERVER_COMPUTER_NAME }}:8172/msdeploy.axd?site=${{ secrets.WEBSITE_NAME }}",
+                userName="${{ secrets.SERVER_USERNAME }}",
+                password="${{ secrets.SERVER_PASSWORD }}",
                 authType="Basic" `
           -allowUntrusted
