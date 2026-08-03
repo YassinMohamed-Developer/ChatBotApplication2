@@ -6,7 +6,7 @@ on:
      branches: [master]
 
 jobs:
-  build:
+  build_Deploy:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,13 +21,13 @@ jobs:
         
       - name: Build
         run: dotnet build --configuration Release --no-restore
-  test:
+        
       - name: Test with .NET
         run: dotnet test
-   publish:     
+   
       - name: Publish
         run: dotnet publish --configuration Release --output ./publish --runtime win-x86 
-   Deploy:     
+    
 
       - name: Deploy to MonsterASP.NET via WebDeploy
         uses: rasmusbuchholdt/simply-web-deploy@2.1.0
