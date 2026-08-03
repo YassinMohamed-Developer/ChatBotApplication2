@@ -104,7 +104,7 @@ jobs:
 
     needs: publish
 
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
 
     runs-on: windows-latest
 
