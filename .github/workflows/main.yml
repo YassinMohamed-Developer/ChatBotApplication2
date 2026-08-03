@@ -1,12 +1,14 @@
-name: ChatBotCI/CD
+name: VaxManager CI/CD
 
 on:
   push:
-    branches: [master]
+    branches:
+      - main
+      - develop
 
   pull_request:
-    branches: [master]
-
+    branches:
+      - main
 
 env:
   DOTNET_VERSION: '10.0.x'
@@ -104,7 +106,7 @@ jobs:
 
     needs: publish
 
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
 
     runs-on: windows-latest
 
@@ -119,8 +121,8 @@ jobs:
       - name: Deploy to MonsterASP.NET
         uses: rasmusbuchholdt/simply-web-deploy@2.1.0
         with:
-          website-name: ${{ secrets.WEBSITE_NAME }} 
-          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }} 
-          server-username: ${{ secrets.SERVER_USERNAME }} 
-          server-password: ${{ secrets.SERVER_PASSWORD }} 
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
           source-path: ./publish
