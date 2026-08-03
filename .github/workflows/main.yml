@@ -84,13 +84,11 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Publish Project
+      - name: Create Publish Profile
+        shell: pwsh
         run: |
-          dotnet publish ${{ env.PROJECT_FILE }} `
-            --configuration Release `
-            --output ./publish `
-            --runtime win-x86 `
-            --self-contained false
+          New-Item -ItemType Directory -Force -Path "./PublishProfile" | Out-Null
+           @'${{ secrets.PUBLISH_PROFILE }}'@ | Set-Content "./PublishProfile/Monster.pubxml"
 
       - name: Upload Publish Artifact
         uses: actions/upload-artifact@v4
@@ -110,15 +108,10 @@ jobs:
         name: published-app
         path: publish
 
-     - name: Deploy using MSDeploy
-       shell: powershell
+     - name: Deploy to MonsterASP.NET
+       shell: pwsh
        run: |
-        & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
-          -verb:sync `
-          -source:contentPath="publish" `
-          -dest:contentPath="${{ secrets.WEBSITE_NAME }}",
-                computerName="https://${{ secrets.SERVER_COMPUTER_NAME }}:8172/msdeploy.axd?site=${{ secrets.WEBSITE_NAME }}",
-                userName="${{ secrets.SERVER_USERNAME }}",
-                password="${{ secrets.SERVER_PASSWORD }}",
-                authType="Basic" `
-          -allowUntrusted
+        msbuild "${{ env.PROJECT_FILE }}" `
+        /p:DeployOnBuild=true `
+        /p:PublishProfile="./PublishProfile/Monster.pubxml" `
+        /p:Configuration=Release
