@@ -99,21 +99,20 @@ jobs:
           path: ./publish
 
   deploy:
-      name: Deploy to MonsterASP.NET
-      needs: publish
-      if: github.ref == 'refs/heads/master'
-      runs-on: windows-latest
-
-  steps:
+    name: Deploy to MonsterASP.NET
+    needs: publish
+    if: github.ref == 'refs/heads/master'
+    runs-on: windows-latest
+    steps:
      - name: Download published files
-      uses: actions/download-artifact@v4
-      with:
+       uses: actions/download-artifact@v4
+       with:
         name: published-app
         path: publish
 
      - name: Deploy using MSDeploy
-      shell: powershell
-      run: |
+       shell: powershell
+       run: |
         & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
           -verb:sync `
           -source:contentPath="publish" `
