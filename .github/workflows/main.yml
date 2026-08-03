@@ -10,7 +10,7 @@ on:
 
 env:
   DOTNET_VERSION: '10.0.x'
-  SOLUTION_FILE: ChatBotApplication2.sln
+  SOLUTION_FILE: ChatBotApplication2.slnx
   PROJECT_FILE: ChatBotApplication2/ChatBotApplication2.csproj
 
 jobs:
